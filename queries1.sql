@@ -93,7 +93,7 @@ ORDER BY
 SELECT
     TO_CHAR(s.sale_date, 'YYYY-MM') AS selling_month,
     COUNT(DISTINCT s.customer_id) AS total_customers,
-    SUM(s.quantity * p.price) AS income
+    ROUND(SUM(s.quantity * p.price)) AS income -- Округление выручки до ближайшего целого числа
 FROM
     sales s
 JOIN
@@ -131,3 +131,4 @@ WHERE
     )
 ORDER BY
     customer;
+

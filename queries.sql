@@ -10,7 +10,7 @@ FROM customers;
 SELECT
     e.first_name || ' ' || e.last_name AS seller,
     COUNT(s.sales_id) AS operations,
-    ROUND(SUM(s.quantity * p.price)) AS income -- Округляем income до целого числа
+    FLOOR(SUM(s.quantity * p.price)) AS income -- Округляем income в меньшую сторону
 FROM
     employees e
 JOIN
@@ -131,4 +131,5 @@ WHERE
     )
 ORDER BY
     customer;
+
 

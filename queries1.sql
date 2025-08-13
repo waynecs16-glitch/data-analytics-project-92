@@ -48,14 +48,14 @@ ORDER BY
 -- Выручка округляется до целого числа, и результаты сортируются сначала по числовому значению дня недели, а затем по имени продавца.
 SELECT
     e.first_name || ' ' || e.last_name AS seller,
-    CASE EXTRACT(DOW FROM s.sale_date)
-        WHEN 0 THEN 'sunday'
+    CASE EXTRACT(ISODOW FROM s.sale_date)
         WHEN 1 THEN 'monday'
         WHEN 2 THEN 'tuesday'
         WHEN 3 THEN 'wednesday'
         WHEN 4 THEN 'thursday'
         WHEN 5 THEN 'friday'
         WHEN 6 THEN 'saturday'
+        WHEN 7 THEN 'sunday' -- Sunday теперь 7
     END AS day_of_week,
     FLOOR(SUM(s.quantity * p.price)) AS income
 FROM
@@ -67,9 +67,9 @@ JOIN
 GROUP BY
     e.employee_id,
     seller,
-    EXTRACT(DOW FROM s.sale_date)
+    EXTRACT(ISODOW FROM s.sale_date)
 ORDER BY
-    EXTRACT(DOW FROM s.sale_date),
+    EXTRACT(ISODOW FROM s.sale_date),
     seller;
 
 
@@ -131,4 +131,5 @@ WHERE
     )
 ORDER BY
     customer;
+
 

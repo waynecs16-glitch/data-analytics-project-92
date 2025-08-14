@@ -29,7 +29,7 @@ LIMIT 10;
 -- Результат округляется до целого числа и сортируется по средней выручке по возрастанию.
 SELECT
     e.first_name || ' ' || e.last_name AS seller,
-    FLOOR(SUM(s.quantity * p.price) / COUNT(s.sales_id)) AS average_income
+    FLOOR(AVG(s.quantity * p.price)) AS average_income -- Используем AVG() для средней выручки
 FROM
     employees e
 JOIN
@@ -39,7 +39,7 @@ JOIN
 GROUP BY
     e.employee_id, seller
 HAVING
-    (SUM(s.quantity * p.price) / COUNT(s.sales_id)) < (SELECT AVG(sq.quantity * pr.price) FROM sales sq JOIN products pr ON sq.product_id = pr.product_id)
+    AVG(s.quantity * p.price) < (SELECT AVG(sq.quantity * pr.price) FROM sales sq JOIN products pr ON sq.product_id = pr.product_id)
 ORDER BY
     average_income ASC;
 
@@ -131,3 +131,4 @@ WHERE
     )
 ORDER BY
     customer;
+

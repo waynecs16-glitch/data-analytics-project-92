@@ -139,5 +139,5 @@ JOIN
 WHERE
     p.price = 0
 ORDER BY
-    c.customer_id ASC, -- AM03: Указание направления сортировки
+    c.customer_id ASC,
     s.sale_date ASC;

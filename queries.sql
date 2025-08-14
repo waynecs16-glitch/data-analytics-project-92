@@ -99,7 +99,7 @@ ORDER BY
 
 -- Этот запрос находит покупателей, чья самая ранняя покупка была совершена с ценой товара, равной 0 (что указывает на акцию).
 -- Для каждого такого покупателя будут отображены его имя и фамилия, дата первой акционной покупки и имя продавца, совершившего эту сделку. Необходимо использовать оператор DISTINCT, чтобы выбрать уникальные комбинации.
-SELECT DISTINCT
+SELECT DISTINCT ON (c.customer_id)
     c.first_name || ' ' || c.last_name AS customer,
     s.sale_date AS sale_date,
     e.first_name || ' ' || e.last_name AS seller
@@ -113,17 +113,9 @@ JOIN
     employees e ON s.sales_person_id = e.employee_id
 WHERE
     p.price = 0
-    AND (s.customer_id, s.sale_date) IN (
-        SELECT
-            s_first.customer_id,
-            MIN(s_first.sale_date) AS first_sale_date
-        FROM
-            sales s_first
-        GROUP BY
-            s_first.customer_id
-    )
 ORDER BY
-    customer;
+    c.customer_id, s.sale_date ASC
+
 
 
 
